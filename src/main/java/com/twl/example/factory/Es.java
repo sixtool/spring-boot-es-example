@@ -22,6 +22,9 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -34,6 +37,7 @@ import java.util.Map;
 /**
  * Created by panwei on 2018/6/26.
  */
+
 public class Es {
     private Logger logger = LoggerFactory.getLogger(Es.class);
 
@@ -42,23 +46,50 @@ public class Es {
     private static TransportClient client;
     // 集群名,默认值elasticsearch
 //    private static final String CLUSTER_NAME = DeployUtil.getEsClusterName();
-    private static final String CLUSTER_NAME = "elasticsearch";
 
-    public Es() {
+//    es.host=192.168.56.14:9300
+//    es.cluster.name=docker-cluster
+
+//    @Value("${es.cluster.name}")
+//    private String cluster_name;
+//    @Value("${es.host}")
+//    private String host;
+
+    public Es(String clusterName,String hosts) {
         // 通过 setting对象来指定集群配置信息
         Settings settings = Settings.builder() //
-                //.put("cluster.name", CLUSTER_NAME)  // 设置ES实例的名称
+                .put("cluster.name", clusterName)  // 设置ES实例的名称
                 .put("client.transport.sniff", false) // 自动嗅探整个集群的状态，把集群中其他ES节点的ip添加到本地的客户端列表中
                 .put("client.transport.ignore_cluster_name", false) // 设置 true ，忽略连接节点集群名验证
                 // .put("client.transport.ping_timeout", 5) // ping一个节点的响应时间 默认5秒
                 // .put("client.transport.nodes_sampler_interval", 5) // sample/ping 节点的时间间隔，默认是5s
                 .build();
+
+//        String[] hostAndPortArray = hostAndPortArrayStr.split(",");
+//
+//        for (String hostAndPort : hostAndPortArray) {
+//            String host = hostAndPort.split(":")[0];
+//            String port = hostAndPort.split(":")[1];
+//            transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), Integer.parseInt(port)));
+//        }
+//
+
+
         client = new PreBuiltTransportClient(settings);
 //        client = new PreBuiltXPackTransportClient(settings);
 
         try {
 //            client.addTransportAddress(new TransportAddress(InetAddress.getByName(DeployUtil.getEsHost()), DeployUtil.getEsPort()));
-            client.addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
+
+            String[] hostsArr = hosts.split(",");
+            for (String s : hostsArr) {
+                String host = s.split(":")[0];
+                String port = s.split(":")[1];
+                client.addTransportAddress(new TransportAddress(InetAddress.getByName(host), Integer.valueOf(port)));
+            }
+
+
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -283,13 +314,13 @@ public class Es {
     }
 
     public static void main(String[] args) {
-        Es es = new Es();
-        ESQueryBuilderConstructor constructor = new ESQueryBuilderConstructor();
-        constructor.setFrom(0);
-        constructor.setSize(10);
-        constructor.setDesc("update_time");
-        RespObject respObject = es.search("case_detail", "doc", constructor);
-        System.out.println("respObject===>" + respObject.toString());
+//        Es es = new Es();
+//        ESQueryBuilderConstructor constructor = new ESQueryBuilderConstructor();
+//        constructor.setFrom(0);
+//        constructor.setSize(10);
+//        constructor.setDesc("update_time");
+//        RespObject respObject = es.search("case_detail", "doc", constructor);
+//        System.out.println("respObject===>" + respObject.toString());
     }
 
 }

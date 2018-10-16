@@ -283,12 +283,12 @@ public class EsUtil {
 //        RespObject respObject = EsUtil.search(index, type, constructor);
 //        System.out.println(respObject);
 
-        ESQueryBuilderConstructor constructor = new ESQueryBuilderConstructor();
-        constructor.setFrom(0);
-        constructor.setSize(10);
-        constructor.setDesc("update_time");
-        RespObject respObject = new Es().search("case_detail_list", "doc", constructor);
-        System.out.println("respObject===>" + respObject.toString());
+//        ESQueryBuilderConstructor constructor = new ESQueryBuilderConstructor();
+//        constructor.setFrom(0);
+//        constructor.setSize(10);
+//        constructor.setDesc("update_time");
+//        RespObject respObject = new Es().search("case_detail_list", "doc", constructor);
+//        System.out.println("respObject===>" + respObject.toString());
     }
 
 

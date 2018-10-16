@@ -12,10 +12,13 @@ import org.slf4j.LoggerFactory;
 public class EsFactory extends BasePooledObjectFactory<Es> {
     private Logger logger = LoggerFactory.getLogger(EsFactory.class);
 
+    public String clusterName;
+    public String hosts;
+
     @Override
     public Es create() throws Exception {
         logger.info("new es");
-        return new Es();
+        return new Es(clusterName,hosts);
     }
 
     @Override
