@@ -1,4 +1,5 @@
 ## SpringBoot1.5.9 + TransportClient + elasticsearch（6.2.4）
+如果需要支持其他版本es,则只需要更改pom.xml中es版本，如6.3.1
 通过TransportClient操作elasticsearch
 
 ## 版本环境说明
@@ -107,7 +108,7 @@ docker run -d -p 5044:5044 -p 127.0.0.1:5601:5601 -p 127.0.0.1:9200:9200 -p 127.
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>6.2.2</version>
+            <version>6.2.2</version><!---这里可更改为任意版本>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
